@@ -68,7 +68,15 @@ lazy_static::lazy_static! {
     pub static ref OVERWRITE_DISPLAY_SETTINGS: RwLock<HashMap<String, String>> = Default::default();
     pub static ref DEFAULT_LOCAL_SETTINGS: RwLock<HashMap<String, String>> = Default::default();
     pub static ref OVERWRITE_LOCAL_SETTINGS: RwLock<HashMap<String, String>> = Default::default();
-    pub static ref HARD_SETTINGS: RwLock<HashMap<String, String>> = Default::default();
+    // AysSoft Remote: Disable settings access for end users
+    pub static ref HARD_SETTINGS: RwLock<HashMap<String, String>> = {
+        let mut m = HashMap::new();
+        m.insert("disable-settings".to_owned(), "Y".to_owned());
+        m.insert("hide-security-settings".to_owned(), "Y".to_owned());
+        m.insert("hide-network-settings".to_owned(), "Y".to_owned());
+        m.insert("hide-server-settings".to_owned(), "Y".to_owned());
+        RwLock::new(m)
+    };
     pub static ref BUILTIN_SETTINGS: RwLock<HashMap<String, String>> = Default::default();
 }
 
